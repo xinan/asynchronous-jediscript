@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asynchronous JediScript</title>
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/async-jedi.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2 class="text-muted">Asynchronous JediScript <small> - Beta</small></h2>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <p class="pull-right">
+              <span class="label label-primary label-lg">List</span> and <span class="label label-primary">Stream</span> functions are supported.
+            </p>
+            <h4>Available APIs</h4>
+            <hr>
+            <div class="panel panel-default">
+              <div class="panel-heading">parallelCounter</div>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      Usage:
+                    </td>
+                    <td>
+                      <code>
+                        parallelCounter(n)
+                      </code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Descripion:
+                    </td>
+                    <td>
+                      <strong>n</strong>: number of numbers to count
+                      <br><br>
+                      Count the numbers from 1 to n asynchronously.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Example:
+                    </td>
+                    <td>
+                      <pre>
+                        <code>
+parallelCounter(10);
+                        </code>
+//==> 1
+//==> 9
+//==> 10
+//==> 2
+//==> 3
+//==> 4
+//==> 5
+//==> 7
+//==> 6
+//==> 8
+                      </pre>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <hr>
+            <div class="panel panel-default">
+              <div class="panel-heading">parallelAdder</div>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      Usage:
+                    </td>
+                    <td>
+                      <code>
+                        parallelAdder(lsts)
+                      </code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Descripion:
+                    </td>
+                    <td>
+                      <strong>lsts</strong>: a list of lists of numbers
+                      <br><br>
+                      Add up a list of lists of numbers asynchronously.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Example:
+                    </td>
+                    <td>
+                      <pre>
+                        <code>
+var list1 = list(1, 2);
+var list2 = list(3, 4);
+var list3 = list(5, 6);
+var lsts = list(list1, list2, list3);
+
+parallelAdder(lsts);
+                        </code>
+//==> Current sum: 3
+//==> Current sum: 10
+//==> Current sum: 21
+
+or
+
+//==> Current sum: 3
+//==> Current sum: 14
+//==> Current sum: 21
+
+or
+
+//==> Current sum: 7
+//==> Current sum: 18
+//==> Current sum: 21
+
+etc.
+                      </pre>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <hr>
+            <div class="panel panel-default">
+              <div class="panel-heading">parallelExecute</div>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      Usage:
+                    </td>
+                    <td>
+                      <code>
+                        parallelExecute(fun1, arg1, fun2, arg2)
+                      </code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Descripion:
+                    </td>
+                    <td>
+                      <strong>fun1</strong>: first function
+                      <br>
+                      <strong>fun2</strong>: second function
+                      <br>
+                      <strong>arg1</strong>: argument for <strong>fun1</strong>
+                      <br>
+                      <strong>arg2</strong>: argument for <strong>fun2</strong>
+                      <br><br>
+                      Run the two functions asynchronously.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Example:
+                    </td>
+                    <td>
+                      <pre>
+                        <code>
+function square(x) {
+  return x * x;
+}
+
+function cube(x) {
+  return x * x * x;
+}
+
+parallelExecute(square, 3, cube, 4);
+                        </code>
+//==> 64
+//==> 9
+
+or
+
+//==> 9
+//==> 64
+                      </pre>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <h4>
+              The APIs are loaded on this web page. <br>
+              Fire up your JavaScript Console and give it a try now!
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>Copyright &copy; 2015<script>new Date().getFullYear()>2015&&document.write("-"+new Date().getFullYear());</script> Liu Xinan</p>
+    </footer>
+  </div>
+  <script src="/js/jediscript.js"></script>
+  <script src="/js/threadpool.min.js"></script>
+  <script src="/js/async-jedi.js"></script>
+</body>
+</html>
