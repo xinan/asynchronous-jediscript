@@ -24,11 +24,15 @@ function parallelAdder(lsts) {
   var importScripts = [window.location.origin + '/js/jediscript.js'];
 
   var total = 0;
+  var numOfWorkersDone = 0;
 
   for_each(function(lst) {
     pool.run(importScripts, adderWorker, lst).done(function(x) {
       total += x;
-      display("Current sum: " + total);
+      numOfWorkersDone++;
+      if (numOfWorkersDone === length(lsts)) {
+        display(total);
+      }
     });
   }, lsts);
   return true;
