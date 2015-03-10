@@ -103,31 +103,13 @@ parallelCounter(10);
                     </td>
                     <td>
                       <pre>
-                        <code>
 var list1 = list(1, 2);
 var list2 = list(3, 4);
 var list3 = list(5, 6);
 var lsts = list(list1, list2, list3);
 
 parallelAdder(lsts);
-                        </code>
-//==> Current sum: 3
-//==> Current sum: 10
-//==> Current sum: 21
-
-or
-
-//==> Current sum: 3
-//==> Current sum: 14
-//==> Current sum: 21
-
-or
-
-//==> Current sum: 7
-//==> Current sum: 18
-//==> Current sum: 21
-
-etc.
+//==> 21
                       </pre>
                     </td>
                   </tr>
@@ -195,6 +177,112 @@ or
                 </tbody>
               </table>
             </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">Bank Account</div>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      Usage:
+                    </td>
+                    <td>
+                      <code>
+                        var account = new Account(initial_balance);
+                        <br>
+                        account.check_balance();
+                        <br>
+                        account.start_transaction(user);
+                        <br>
+                        account.withdraw(amount, user);
+                        <br>
+                        account.deposit(amount, user);
+                        <br>
+                        account.commit_transaction(user);
+                      </code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Descripion:
+                    </td>
+                    <td>
+                      <strong>Account(initial_balance)</strong>: <br>
+                      Create an account with an initial balance.
+                      <br><br>
+                      <strong>check_balance()</strong>: <br>
+                      Display the current balance.
+                      <br><br>
+                      <strong>start_transaction(user)</strong>: <br>
+                      Start a transaction by user, take the mutex to prevent other users from operating on the account.
+                      <br><br>
+                      <strong>withdraw(amount, user)</strong>: <br>
+                      Withdraw an amount by user.
+                      <br><br>
+                      <strong>deposit(amount, user)</strong>: <br>
+                      Deposit an amount by user.
+                      <br><br>
+                      <strong>commit_transaction(user)</strong>: <br>
+                      Commit the transaction.
+                      <br><br>
+                      <strong>cancel_transaction(user)</strong>: <br>
+                      Cancel the transaction.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Example:
+                    </td>
+                    <td>
+                      <pre>
+                        <code>
+// Create an account with initial balance 100.
+var shared_account = new Account(100);
+
+shared_account.withdraw(30);
+//==> "Success! New balance: 70"
+
+shared_account.withdraw(40);
+//==> "Success! New balance: 30"
+
+shared_account.withdraw(50);
+//==> "Insufficient fund!"
+
+shared_account.deposit(50);
+//==> "Success! New balance: 80"
+
+shared_account.check_balance();
+//==> "Current balance: 80"
+
+
+shared_account.start_transaction("Alice");
+//==> "Transaction started."
+
+shared_account.withdraw(10, "Alice");
+shared_account.withdraw(10, "Alice");
+shared_account.withdraw(100, "Bob");
+//==> "Sorry, another transaction is ongoing. Please try again later."
+
+shared_account.withdraw(10, "Alice");
+shared_account.deposit(100, "Alice");
+shared_account.commit_transaction("Alice");
+//==> "Success! New balance: 70"
+//==> "Success! New balance: 60"
+//==> "Success! New balance: 50"
+//==> "Success! New balance: 150"
+//==> "Transaction committed."
+
+
+shared_account.start_transaction("Bob");
+//==> "Transaction started."
+shared_account.withdraw(1000, "Bob");
+shared_account.cancel_transaction("Bob");
+//==> "Transaction cancelled."
+                      </pre>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="panel-footer">
             <h4>
@@ -217,5 +305,6 @@ or
   <script src="js/jediscript.js"></script>
   <script src="js/threadpool.min.js"></script>
   <script src="js/async-jedi.js"></script>
+  <script src="js/worker-as-bank-account.js"></script>
 </body>
 </html>
