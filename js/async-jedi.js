@@ -1,4 +1,4 @@
-function parallelCounter(n) {
+function parallel_counter(n) {
   var counterWorker = function(x, callback) {
     callback(x);
   };
@@ -12,7 +12,7 @@ function parallelCounter(n) {
   }
 }
 
-function parallelAdder(lsts) {
+function parallel_adder(lsts, callback) {
   var adderWorker = function(lst, callback) {
     var sum = accumulate(function(x, y) {
       return x + y;
@@ -31,28 +31,24 @@ function parallelAdder(lsts) {
       total += x;
       numOfWorkersDone++;
       if (numOfWorkersDone === length(lsts)) {
-        display(total);
+        callback(total);
       }
     });
   }, lsts);
   return true;
 }
 
-function parallelExecute(fun1, arg1, fun2, arg2) {
+function parallel_execute(fun, arg, callback) {
   var worker = function(arg, callback) {
     callback(fun(arg));
   };
 
-  var task1 = new Blob([fun1.toString().replace(/function.*?(?=\()/, 'function fun')], {type: 'application/javascript'});
-  var task2 = new Blob([fun2.toString().replace(/function.*?(?=\()/, 'function fun')], {type: 'application/javascript'});
-  var url1 = window.URL.createObjectURL(task1);
-  var url2 = window.URL.createObjectURL(task2);
+  var task = new Blob([fun.toString().replace(/function.*?(?=\()/, 'function fun')], {type: 'application/javascript'});
+  var url = window.URL.createObjectURL(task);
 
   var pool = new ThreadPool();
-  var importScripts1 = [window.location.origin + '/js/jediscript.js', url1];
-  var importScripts2 = [window.location.origin + '/js/jediscript.js', url2];
+  var importScripts = [window.location.origin + '/js/jediscript.js', url];
 
-  pool.run(importScripts1, worker, arg1).done(display);
-  pool.run(importScripts2, worker, arg2).done(display);
+  pool.run(importScripts, worker, arg).done(callback);
   return true;
 }
