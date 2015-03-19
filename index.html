@@ -24,7 +24,7 @@
             <h4>Available APIs</h4>
             <hr>
             <div class="panel panel-default">
-              <div class="panel-heading">parallelCounter</div>
+              <div class="panel-heading">parallel_counter</div>
               <table class="table">
                 <tbody>
                   <tr>
@@ -33,7 +33,7 @@
                     </td>
                     <td>
                       <code>
-                        parallelCounter(n)
+                        parallel_counter(n)
                       </code>
                     </td>
                   </tr>
@@ -54,7 +54,7 @@
                     <td>
                       <pre>
                         <code>
-parallelCounter(10);
+parallel_counter(10);
                         </code>
 //==> 1
 //==> 9
@@ -74,7 +74,7 @@ parallelCounter(10);
             </div>
             <hr>
             <div class="panel panel-default">
-              <div class="panel-heading">parallelAdder</div>
+              <div class="panel-heading">parallel_adder</div>
               <table class="table">
                 <tbody>
                   <tr>
@@ -83,7 +83,7 @@ parallelCounter(10);
                     </td>
                     <td>
                       <code>
-                        parallelAdder(lsts)
+                        parallel_adder(lsts, callback)
                       </code>
                     </td>
                   </tr>
@@ -93,6 +93,8 @@ parallelCounter(10);
                     </td>
                     <td>
                       <strong>lsts</strong>: a list of lists of numbers
+                      <br>
+                      <strong>callback</strong>: what to do with the final result
                       <br><br>
                       Add up a list of lists of numbers asynchronously.
                     </td>
@@ -108,7 +110,7 @@ var list2 = list(3, 4);
 var list3 = list(5, 6);
 var lsts = list(list1, list2, list3);
 
-parallelAdder(lsts);
+parallel_adder(lsts, display);
 //==> 21
                       </pre>
                     </td>
@@ -118,7 +120,7 @@ parallelAdder(lsts);
             </div>
             <hr>
             <div class="panel panel-default">
-              <div class="panel-heading">parallelExecute</div>
+              <div class="panel-heading">parallel_execute</div>
               <table class="table">
                 <tbody>
                   <tr>
@@ -127,7 +129,7 @@ parallelAdder(lsts);
                     </td>
                     <td>
                       <code>
-                        parallelExecute(fun1, arg1, fun2, arg2)
+                        parallel_execute(fun, arg, callback)
                       </code>
                     </td>
                   </tr>
@@ -136,15 +138,13 @@ parallelAdder(lsts);
                       Descripion:
                     </td>
                     <td>
-                      <strong>fun1</strong>: first function
+                      <strong>fun</strong>: function to be executed
                       <br>
-                      <strong>fun2</strong>: second function
+                      <strong>arg</strong>: argument for the function
                       <br>
-                      <strong>arg1</strong>: argument for <strong>fun1</strong>
-                      <br>
-                      <strong>arg2</strong>: argument for <strong>fun2</strong>
+                      <strong>callback</strong>: what to do with the result result
                       <br><br>
-                      Run the two functions asynchronously.
+                      Run the function in another thread, which will not block the running of subsequent statements.
                     </td>
                   </tr>
                   <tr>
@@ -162,7 +162,8 @@ function cube(x) {
   return x * x * x;
 }
 
-parallelExecute(square, 3, cube, 4);
+parallel_execute(square, 3, display);
+parallel_execute(cube, 4, display);
                         </code>
 //==> 64
 //==> 9
