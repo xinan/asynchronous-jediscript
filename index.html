@@ -53,9 +53,9 @@
                     </td>
                     <td>
                       <pre>
-                        <code>
+
 parallel_counter(10);
-                        </code>
+
 //==> 1
 //==> 9
 //==> 10
@@ -66,6 +66,7 @@ parallel_counter(10);
 //==> 7
 //==> 6
 //==> 8
+
                       </pre>
                     </td>
                   </tr>
@@ -105,6 +106,7 @@ parallel_counter(10);
                     </td>
                     <td>
                       <pre>
+
 var list1 = list(1, 2);
 var list2 = list(3, 4);
 var list3 = list(5, 6);
@@ -112,6 +114,7 @@ var lsts = list(list1, list2, list3);
 
 parallel_adder(lsts, display);
 //==> 21
+
                       </pre>
                     </td>
                   </tr>
@@ -144,7 +147,7 @@ parallel_adder(lsts, display);
                       <br>
                       <strong>callback</strong>: what to do with the result result
                       <br><br>
-                      Run the function in another thread, which will not block the running of subsequent statements.
+                      Run the function in another thread, <br>which will not block the running of subsequent statements.
                     </td>
                   </tr>
                   <tr>
@@ -153,7 +156,7 @@ parallel_adder(lsts, display);
                     </td>
                     <td>
                       <pre>
-                        <code>
+
 function square(x) {
   return x * x;
 }
@@ -164,7 +167,7 @@ function cube(x) {
 
 parallel_execute(square, 3, display);
 parallel_execute(cube, 4, display);
-                        </code>
+
 //==> 64
 //==> 9
 
@@ -172,6 +175,7 @@ or
 
 //==> 9
 //==> 64
+
                       </pre>
                     </td>
                   </tr>
@@ -190,7 +194,7 @@ or
                       <code>
                         var account = new Account(initial_balance);
                         <br>
-                        account.check_balance();
+                        account.check_balance(user);
                         <br>
                         account.start_transaction(user);
                         <br>
@@ -210,7 +214,7 @@ or
                       <strong>Account(initial_balance)</strong>: <br>
                       Create an account with an initial balance.
                       <br><br>
-                      <strong>check_balance()</strong>: <br>
+                      <strong>check_balance(user)</strong>: <br>
                       Display the current balance.
                       <br><br>
                       <strong>start_transaction(user)</strong>: <br>
@@ -235,28 +239,18 @@ or
                     </td>
                     <td>
                       <pre>
-                        <code>
+
 // Create an account with initial balance 100.
 var shared_account = new Account(100);
+//==> "Account created."
 
-shared_account.withdraw(30);
-//==> "Success! New balance: 70"
-
-shared_account.withdraw(40);
-//==> "Success! New balance: 30"
-
-shared_account.withdraw(50);
-//==> "Insufficient fund!"
-
-shared_account.deposit(50);
-//==> "Success! New balance: 80"
-
-shared_account.check_balance();
-//==> "Current balance: 80"
+shared_account.check_balance('Alice');
+//==> "Current balance: 100"
 
 
 shared_account.start_transaction("Alice");
-//==> "Transaction started."
+//==> "Hello, Alice!"
+//==> "Transaction started. Current balance: 100"
 
 shared_account.withdraw(10, "Alice");
 shared_account.withdraw(10, "Alice");
@@ -266,18 +260,30 @@ shared_account.withdraw(100, "Bob");
 shared_account.withdraw(10, "Alice");
 shared_account.deposit(100, "Alice");
 shared_account.commit_transaction("Alice");
+//==> "Success! New balance: 90"
+//==> "Success! New balance: 80"
 //==> "Success! New balance: 70"
-//==> "Success! New balance: 60"
-//==> "Success! New balance: 50"
-//==> "Success! New balance: 150"
-//==> "Transaction committed."
+//==> "Success! New balance: 170"
+//==> "Transaction committed. Current balance: 170"
 
 
 shared_account.start_transaction("Bob");
-//==> "Transaction started."
+//==> "Hello, Bob!"
+//==> "Transaction started. Current balance: 170"
 shared_account.withdraw(1000, "Bob");
 shared_account.cancel_transaction("Bob");
 //==> "Transaction cancelled."
+
+
+shared_account.start_transaction('Alice');
+//==> "Hello, Alice"
+//==> "Transaction started. Current balance: 170"
+shared_account.withdraw(100000, 'Alice');
+shared_account.commit_transaction('Alice');
+//==> "Insufficient fund!"
+//==> "Transaction failed. Rolling back..."
+//==> "Successfully rolled back. Current balance: 170"
+
                       </pre>
                     </td>
                   </tr>

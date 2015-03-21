@@ -1,7 +1,7 @@
 var Account = function(balance) {
   this.account = new Worker("js/bank-account-worker.js");
   this.account.postMessage({
-    op: "init",
+    op: "__init",
     amount: balance
   });
 
