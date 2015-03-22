@@ -20,7 +20,7 @@ onmessage = function(e) {
   } else {
     if (e.data.op === 'start_transaction') {
       start(e.data.user);
-    } else if (e.data.op === 'check_balance' || e.data.op === '__init') {
+    } else if (e.data.op === '__init') {
       dispatch(e.data);
     } else {
       postMessage('Please start a transaction first.');
